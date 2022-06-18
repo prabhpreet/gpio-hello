@@ -1,0 +1,34 @@
+{
+    /* 
+     * Requires the Rust Language Server (RLS) and Cortex-Debug extensions
+     * https://marketplace.visualstudio.com/items?itemName=rust-lang.rust
+     * https://marketplace.visualstudio.com/items?itemName=marus25.cortex-debug
+     */
+    "version": "0.2.0",
+    "configurations": [
+        {
+            /* Configuration for the MSP432E401Y Launchpad board */
+            "type": "cortex-debug",
+            "request": "launch",
+            "name": "Debug (OpenOCD External)",
+            "servertype": "external",
+            "gdbTarget": "192.168.1.83:3333",
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "Cargo Build (debug)",
+            "runToMain": true,
+            "executable": "./target/thumbv7em-none-eabihf/debug/gpio-hello",
+            /* Run `cargo build --example itm` and uncomment this line to run itm example */
+            // "executable": "./target/thumbv7em-none-eabihf/debug/examples/itm",
+            "gdbPath": "C:\\gcc-arm\\bin\\arm-none-eabi-gdb.exe",
+            "device": "MSP432E401Y",
+            "configFiles": [
+                "board/ti_msp432_launchpad.cfg",
+            ],
+            "svdFile": "${workspaceRoot}/.vscode/MSP432E401Y.svd",
+            "preRestartCommands": [
+                "enable breakpoint",
+                "monitor reset init"
+            ],
+        }
+    ]
+}
